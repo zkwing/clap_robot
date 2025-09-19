@@ -1,0 +1,32 @@
+# keil
+*.uvguix.*
+*.uvoptx
+*.build_log
+*.htm
+*.crf
+*.d
+*.dep
+*.lnp
+*.o
+*.sct
+*.iex
+*.scvd
+*.lst
+*.Bak
+*.hex
+*.bin
+*.axf
+*.map
+*.clangd
+
+# vscode
+*.log
+*.lock
+c_cpp_properties.json
+keil_project_properties.json
+settings.json
+compile_commands.json
+
+# JLink
+JLinkLog.txt
+JLinkSettings.ini
