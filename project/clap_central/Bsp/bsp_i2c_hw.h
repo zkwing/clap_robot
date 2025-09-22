@@ -1,24 +1,21 @@
-
-#ifndef _BSP_I2C_TEST_H
-#define _BSP_I2C_TEST_H
+#ifndef _BSP_I2C_HW_H
+#define _BSP_I2C_HW_H
 
 
 /********************************************************************************************
 * include:
 ********************************************************************************************/
-#include "bsp_config.h"
+#include "stm32h7xx_hal.h"
 #include "stdint.h"
 
 /********************************************************************************************
 * Define:
 ********************************************************************************************/
-
-
 typedef struct {
-    gpio_class_t *scl_port;
-    gpio_class_t *sda_port;
-    uint32_t i2c_periph;
-} i2c_hw_class_t;
+    I2C_HandleTypeDef *pI2C;
+    uint32_t address;
+    
+} i2c_hw_class_t;  
 
 
 
