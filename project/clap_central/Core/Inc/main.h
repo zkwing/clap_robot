@@ -33,6 +33,8 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "user_queue.h"
 #include "RingBuffer.h"
+#include "bsp_init.h"
+#include "drv_log.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

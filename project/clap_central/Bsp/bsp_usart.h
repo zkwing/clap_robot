@@ -1,7 +1,10 @@
 #ifndef __BSP_USART_H__
 #define __BSP_USART_H__
 
-#include "main.h"
+#include "stm32h7xx_hal.h"
+#include "RingBuffer.h"
+#include "stdbool.h"
+#include "stdlib.h"
 typedef struct 
 {
     UART_HandleTypeDef *huart;
@@ -19,7 +22,7 @@ typedef struct
     uint16_t rx_ringbuffer_size;
 
     uint8_t *tx_dmabuffer;
-    uint8_t *rx_dmabuffer;
+    uint8_t rx_dmabuffer[256];
     uint16_t tx_dmabuffer_size;
     uint16_t rx_dmabuffer_size;
 }uart_class_t;
