@@ -24,6 +24,7 @@
 #include "task.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "bsp_init.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -222,7 +223,10 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-
+  if(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE)!=RESET){
+    __HAL_UART_CLEAR_FLAG(&huart1,UART_FLAG_IDLE);
+     bsp_usart_rx_dma_to_buffer(&g_debug_usart1);
+  }
   /* USER CODE END USART1_IRQn 1 */
 }
 
