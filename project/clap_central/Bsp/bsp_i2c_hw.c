@@ -28,19 +28,19 @@
 * Output         : void
 * Return         : none
 ********************************************************************************************/
-void bsp_i2c_hw_init(i2c_hw_class_t *ptr, uint32_t clkspeed, uint32_t addr)
+void bsp_i2c_hw_init(i2c_hw_class_t *ptr, I2C_HandleTypeDef *pI2c,uint32_t addr)
 {
-
-
+    ptr->pI2C = pI2c;
+    ptr->address = addr;
 }
 
-uint32_t bsp_i2c_hw_write_buf(i2c_hw_class_t *ptr, uint8_t addr, uint32_t reg, uint8_t *buf, int len)
+uint32_t bsp_i2c_hw_write_buf(i2c_hw_class_t *ptr, uint8_t addr, uint8_t *buf, int len)
 {
-
+    HAL_I2C_Master_Transmit(ptr->pI2C,ptr->address,buf,len,1000);
 }
 
-uint32_t bsp_i2c_hw_read_buf(i2c_hw_class_t *ptr, uint8_t addr, uint32_t reg, uint8_t *buf, int len)
+uint32_t bsp_i2c_hw_read_buf(i2c_hw_class_t *ptr, uint8_t addr, uint8_t *buf, int len)
 {
-
+    HAL_I2C_Master_Receive(ptr->pI2C,ptr->address,buf,len,1000);
 }
 

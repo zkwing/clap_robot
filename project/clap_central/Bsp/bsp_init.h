@@ -5,6 +5,7 @@
 //#define BSP_UART_ENABLE
 
 #include "bsp_usart.h"
+#include "bsp_i2c_hw.h"
 
 extern uart_class_t g_debug_usart1;
 

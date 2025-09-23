@@ -6,17 +6,16 @@
 /********************************************************************************************
 * include:
 ********************************************************************************************/
-#include "bsp_config.h"
+#include "stm32h7xx_hal.h"
 #include "stdint.h"
-#include "drv_delay.h"
 /********************************************************************************************
 * Define:
 ********************************************************************************************/
 typedef struct {
-    gpio_class_t *scl_port;
-    gpio_class_t *sda_port;
-    sw_delay_ptr delay_ptr;
-    uint16_t delay_time;
+    // gpio_class_t *scl_port;
+    // gpio_class_t *sda_port;
+    // sw_delay_ptr delay_ptr;
+    // uint16_t delay_time;
 } i2c_sw_class_t;
 
 typedef enum {

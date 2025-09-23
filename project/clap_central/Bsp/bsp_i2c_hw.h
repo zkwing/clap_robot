@@ -14,7 +14,7 @@
 typedef struct {
     I2C_HandleTypeDef *pI2C;
     uint32_t address;
-    
+
 } i2c_hw_class_t;  
 
 
@@ -29,9 +29,9 @@ typedef struct {
 * Function:
 ********************************************************************************************/
 
-void bsp_i2c_hw_init(i2c_hw_class_t *ptr, uint32_t clkspeed, uint32_t addr);
-uint32_t bsp_i2c_hw_write_buf(i2c_hw_class_t *ptr, uint8_t addr, uint32_t reg, uint8_t *buf, int len);
-uint32_t bsp_i2c_hw_read_buf(i2c_hw_class_t *ptr, uint8_t addr, uint32_t reg, uint8_t *buf, int len);
+void bsp_i2c_hw_init(i2c_hw_class_t *ptr, I2C_HandleTypeDef *pI2c, uint32_t addr);
+uint32_t bsp_i2c_hw_write_buf(i2c_hw_class_t *ptr, uint8_t addr, uint8_t *buf, int len);
+uint32_t bsp_i2c_hw_read_buf(i2c_hw_class_t *ptr, uint8_t addr, uint8_t *buf, int len);
 
 
 #endif
