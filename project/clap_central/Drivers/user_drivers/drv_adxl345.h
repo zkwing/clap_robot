@@ -2,7 +2,7 @@
 #define __DRV_ADXL345_H__
 
 #include "stdint.h"
-#include "bsp_init.h"
+#include "drv_init.h"
 
 typedef struct{
     i2c_hw_class_t *i2c_interface;

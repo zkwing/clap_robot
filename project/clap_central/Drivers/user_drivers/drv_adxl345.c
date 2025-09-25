@@ -13,6 +13,7 @@ static void drv_adxl345_read(drv_adxl345_t *pdr,uint16_t reg,uint8_t *buf,uint16
 int8_t drv_adxl345_init(drv_adxl345_t *pdr,i2c_hw_class_t *pinf)
 {
     if(pdr == NULL || pinf == NULL){
+        log_e("drv_adxl345_init param error");
         return -1;
     }
     pdr->i2c_interface = pinf;
