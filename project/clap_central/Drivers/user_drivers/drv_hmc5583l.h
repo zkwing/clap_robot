@@ -2,8 +2,8 @@
 #define __DRV_HMC5583L_H__
 
 #include "stdint.h"
-#include "drv_init.h"
-
+#include "bsp_init.h"
+#include "drv_log.h"
 typedef struct{
     i2c_hw_class_t *i2c_interface;
     int16_t raw_mag_data[3];    

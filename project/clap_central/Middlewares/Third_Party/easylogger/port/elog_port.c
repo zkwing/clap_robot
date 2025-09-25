@@ -66,7 +66,7 @@ void elog_port_deinit(void) {
 void elog_port_output(const char *log, size_t size) {
     
     /* add your code here */
-//    bsp_usart_dma_send(&g_debug_usart1,(uint8_t *)log,size);
+    bsp_usart_dma_send(&g_debug_usart1,(uint8_t *)log,size);
 }
 
 /**

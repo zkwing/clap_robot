@@ -29,6 +29,7 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -47,34 +48,35 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-osThreadId defaultTaskHandle;
-osSemaphoreId logHandle;
-osStaticSemaphoreDef_t logControlBlock;
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for Task_200HZ */
+osThreadId_t Task_200HZHandle;
+uint32_t Task_200HZBuffer[ 256 ];
+osStaticThreadDef_t Task_200HZControlBlock;
+const osThreadAttr_t Task_200HZ_attributes = {
+  .name = "Task_200HZ",
+  .cb_mem = &Task_200HZControlBlock,
+  .cb_size = sizeof(Task_200HZControlBlock),
+  .stack_mem = &Task_200HZBuffer[0],
+  .stack_size = sizeof(Task_200HZBuffer),
+  .priority = (osPriority_t) osPriorityHigh,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void const * argument);
+void StartDefaultTask(void *argument);
+void task_200hz_process(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
-
-/* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
-
-/* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
-static StaticTask_t xIdleTaskTCBBuffer;
-static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
-
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
-{
-  *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
-  *ppxIdleTaskStackBuffer = &xIdleStack[0];
-  *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
-  /* place for user code */
-}
-/* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /**
   * @brief  FreeRTOS initialization
@@ -90,11 +92,6 @@ void MX_FREERTOS_Init(void) {
   /* add mutexes, ... */
   /* USER CODE END RTOS_MUTEX */
 
-  /* Create the semaphores(s) */
-  /* definition and creation of log */
-  osSemaphoreStaticDef(log, &logControlBlock);
-  logHandle = osSemaphoreCreate(osSemaphore(log), 1);
-
   /* USER CODE BEGIN RTOS_SEMAPHORES */
   /* add semaphores, ... */
   /* USER CODE END RTOS_SEMAPHORES */
@@ -108,13 +105,19 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
-  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of Task_200HZ */
+  Task_200HZHandle = osThreadNew(task_200hz_process, NULL, &Task_200HZ_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
 
 }
 
@@ -125,18 +128,46 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
+  uint32_t tick = osKernelGetTickCount();
   for(;;)
   {
-    osDelay(1);
+    HAL_GPIO_TogglePin(LEDl_GPIO_Port,LEDl_Pin);
+//    log_i("StartDefaultTask is running");
+    tick+=500;
+    osDelayUntil(tick);
   }
   /* USER CODE END StartDefaultTask */
+}
+
+/* USER CODE BEGIN Header_task_200hz_process */
+/**
+* @brief Function implementing the Task_200HZ thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_task_200hz_process */
+void task_200hz_process(void *argument)
+{
+  /* USER CODE BEGIN task_200hz_process */
+  /* Infinite loop */
+  uint32_t tick = osKernelGetTickCount();
+  for(;;)
+  {
+    drv_adxl345_update(&g_acc_sensor);
+    drv_hmc5583l_update(&g_mag_sensor);
+    drv_itg3205_update(&g_gyro_sensor);
+    tick+=10;
+    osDelayUntil(tick);
+  }
+  /* USER CODE END task_200hz_process */
 }
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
 
 /* USER CODE END Application */
+

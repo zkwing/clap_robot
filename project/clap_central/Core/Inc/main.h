@@ -35,6 +35,7 @@ extern "C" {
 #include "RingBuffer.h"
 #include "bsp_init.h"
 #include "drv_log.h"
+#include "drv_init.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -60,6 +61,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LEDl_Pin GPIO_PIN_7
+#define LEDl_GPIO_Port GPIOG
 #define debug_usart_tx_Pin GPIO_PIN_9
 #define debug_usart_tx_GPIO_Port GPIOA
 #define debug_usart_rx_Pin GPIO_PIN_10

@@ -98,10 +98,12 @@ int main(void)
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
   bsp_init();
-  drv_log_init();
+
+  drv_init();
   /* USER CODE END 2 */
 
-  /* Call init function for freertos objects (in freertos.c) */
+  /* Init scheduler */
+  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */
