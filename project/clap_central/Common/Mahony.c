@@ -27,23 +27,27 @@ void mahony_update(mahony_t* m,
     ax /= norm; ay /= norm; az /= norm;
 
     /* 磁力计归一化 */
-    norm = sqrtf(mx*mx + my*my + mz*mz);
+//    norm = sqrtf(mx*mx + my*my + mz*mz);
+//    if (norm == 0.0f) return;
+//    mx /= norm; my /= norm; mz /= norm;
+    /* 陀螺仪归一化 */
+    norm = sqrtf(gx*gx + gy*gy + gz*gz);
     if (norm == 0.0f) return;
-    mx /= norm; my /= norm; mz /= norm;
+    gx /= norm; gy /= norm; gz /= norm;
 
     /* 把磁力计转到世界系，估算磁北方向 */
     hx = 2.0f*(mx*(0.5f - m->q2*m->q2 - m->q3*m->q3) +
-               my*(m->q1*m->q2 - m->q0*m->q3) +
+               my*(m->q1*m->q2 - m->q0*m->q3) +   
                mz*(m->q1*m->q3 + m->q0*m->q2));
     hy = 2.0f*(mx*(m->q1*m->q2 + m->q0*m->q3) +
                my*(0.5f - m->q1*m->q1 - m->q3*m->q3) +
-               mz*(m->q2*m->q3 - m->q0*m->q1));
+               mz*(m->q2*m->q3 - m->q0*m->q1)); 
     hz = 2.0f*(mx*(m->q1*m->q3 - m->q0*m->q2) +
                my*(m->q2*m->q3 + m->q0*m->q1) +
-               mz*(0.5f - m->q1*m->q1 - m->q2*m->q2));
+               mz*(0.5f - m->q1*m->q1 - m->q2*m->q2)); 
     bx = sqrtf(hx*hx + hy*hy);
     bz = hz;
-
+ 
     /* 期望方向（世界系） */
     vx = 2.0f*(m->q1*m->q3 - m->q0*m->q2);
     vy = 2.0f*(m->q0*m->q1 + m->q2*m->q3);
@@ -60,16 +64,23 @@ void mahony_update(mahony_t* m,
 
     /* PI 补偿 */
     if (m->ki > 0.0f) {
-        m->integralFBx += m->ki * ex * dt;
-        m->integralFBy += m->ki * ey * dt;
-        m->integralFBz += m->ki * ez * dt;
-        gx += m->integralFBx;
-        gy += m->integralFBy;
-        gz += m->integralFBz;
+        m->integralFBx += ex;
+        m->integralFBy += ey;
+        m->integralFBz += ez;
+        // m->integralFBx += m->ki * ex * dt;
+        // m->integralFBy += m->ki * ey * dt;
+        // m->integralFBz += m->ki * ez * dt;
+        // gx += m->integralFBx;
+        // gy += m->integralFBy;
+        // gz += m->integralFBz;
+    }else{
+        m->integralFBx = 0.0f;
+        m->integralFBy = 0.0f;
+        m->integralFBz = 0.0f;
     }
-    gx += m->kp * ex;
-    gy += m->kp * ey;
-    gz += m->kp * ez;
+    gx =gx + m->kp * ex + m->ki * m->integralFBx;
+    gy =gy + m->kp * ey + m->ki * m->integralFBy; 
+    gz =gz + m->kp * ez + m->ki * m->integralFBz;
 
     /* 一阶积分更新四元数 */
     gx *= 0.5f * dt; gy *= 0.5f * dt; gz *= 0.5f * dt;

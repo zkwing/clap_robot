@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_ahrs.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -136,7 +136,7 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
     HAL_GPIO_TogglePin(LEDl_GPIO_Port,LEDl_Pin);
-//    log_i("StartDefaultTask is running");
+
     tick+=500;
     osDelayUntil(tick);
   }
@@ -150,16 +150,20 @@ void StartDefaultTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_task_200hz_process */
+app_ahrs_t g_ahrs;
 void task_200hz_process(void *argument)
 {
   /* USER CODE BEGIN task_200hz_process */
   /* Infinite loop */
   uint32_t tick = osKernelGetTickCount();
+
+  app_ahrs_init(&g_ahrs);
+
   for(;;)
   {
-    drv_adxl345_update(&g_acc_sensor);
-    drv_hmc5583l_update(&g_mag_sensor);
-    drv_itg3205_update(&g_gyro_sensor);
+    app_ahrs_update(&g_ahrs,0.01f);
+    jcom_float_print(0,g_ahrs.roll,g_ahrs.pitch,g_ahrs.yaw);
+
     tick+=10;
     osDelayUntil(tick);
   }

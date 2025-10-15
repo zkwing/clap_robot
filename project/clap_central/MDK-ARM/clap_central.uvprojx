@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Common;../Bsp;../Drivers/user_drivers;../Middlewares/Third_Party/easylogger/inc;../Middlewares/Third_Party/easylogger/port;../Middlewares/Third_Party/easylogger/src;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Common;../Bsp;../Drivers/user_drivers;../Middlewares/Third_Party/easylogger/inc;../Middlewares/Third_Party/easylogger/port;../Middlewares/Third_Party/easylogger/src;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;..\App</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -398,6 +398,11 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_ahrs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\app_ahrs.c</FilePath>
             </File>
             <File>
               <FileName>gpio.c</FileName>
@@ -664,6 +669,11 @@
               <FileName>RingBuffer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Common\RingBuffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>Mahony.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Common\Mahony.c</FilePath>
             </File>
           </Files>
         </Group>
