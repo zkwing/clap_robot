@@ -23,7 +23,6 @@ static void pwm_set_duty(timer_class_t *self, uint8_t idx, float duty)
     __HAL_TIM_SET_COMPARE(self->htim, ch, pulse);
 }
 
-
 static uint32_t pwm_get_count(timer_class_t *self, uint8_t idx)
 {
     return self->ch[idx].pulse;
@@ -53,7 +52,7 @@ static float ic_read_duty(timer_class_t *self, uint8_t idx)
 
 
 /* ---------- 工厂函数 ---------- */
-void timer_class_init(timer_class_t *self,
+void bsp_timer_init(timer_class_t *self,
                       TIM_HandleTypeDef *htim,
                       uint32_t func_mask)
 {

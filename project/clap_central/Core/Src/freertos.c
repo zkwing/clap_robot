@@ -129,9 +129,19 @@ void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
+  static uint8_t cnt=0;
+  g_wheel_pwm.start(&g_wheel_pwm,0);
   for(;;)
   {
-    osDelay(1);
+//    cnt++;
+//    if(cnt<100){
+//      g_wheel_pwm.set_duty(&g_wheel_pwm,0,cnt *1.0f/100);
+//    }else{
+//      g_wheel_pwm.set_duty(&g_wheel_pwm,0,0);
+//      cnt=0;
+//    }
+    g_wheel_pwm.set_duty(&g_wheel_pwm,0,0.2f );
+    osDelay(1000);
   }
   /* USER CODE END StartDefaultTask */
 }

@@ -28,13 +28,13 @@ typedef struct timer_class_t {
     HAL_StatusTypeDef (*stop) (struct timer_class_t *self, uint8_t ch_idx);
     void              (*set_duty)(struct timer_class_t *self, uint8_t ch_idx, float duty);
     uint32_t          (*get_count)(struct timer_class_t *self, uint8_t ch_idx);
-    uint32_t          (*get_freq)(timer_class_t *self, uint8_t idx);
-    float             (*get_duty)(timer_class_t *self, uint8_t idx);
+    uint32_t          (*get_freq)(struct timer_class_t *self, uint8_t idx);
+    float             (*get_duty)(struct timer_class_t *self, uint8_t idx);
     
 } timer_class_t;
-
+  
 /* 工厂函数 */
-void timer_class_init(timer_class_t *self,
+void bsp_timer_init(timer_class_t *self,
                       TIM_HandleTypeDef *htim,
                       uint32_t func_mask);
 
