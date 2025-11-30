@@ -635,6 +635,11 @@
               <FileType>1</FileType>
               <FilePath>..\Bsp\bsp_i2c_hw.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\bsp_timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
